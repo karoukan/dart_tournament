@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import AddParticipants from "./pages/AddParticipants";
 import AddMatch from "./pages/AddMatch";
 import Rankings from "./pages/Rankings";
+import { ToastContainer } from "react-toastify";
 
 const saveData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
@@ -67,6 +68,7 @@ function App() {
 						<Route path="/rankings" element={<Rankings players={players} />} />
 					</Routes>
 				</main>
+				<ToastContainer />
 			</div>
 		</Router>
 	);
