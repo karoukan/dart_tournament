@@ -30,8 +30,8 @@ const AddMatch = ({ players, addMatch }) => {
                     >
                     <option value="">Sélectionnez le joueur A</option>
                         {players.map((player, index) => (
-                            <option key={index} value={player.nom}>
-                            {player.nom}
+                            <option key={index} value={player.name}>
+                                {player.name}
                             </option>
                         ))}
                     </select>
@@ -46,8 +46,8 @@ const AddMatch = ({ players, addMatch }) => {
                     >
                     <option value="">Sélectionnez le joueur B</option>
                         {players.map((player, index) => (
-                            <option key={index} value={player.nom}>
-                            {player.nom}
+                            <option key={index} value={player.name}>
+                                {player.name}
                             </option>
                         ))}
                     </select>

@@ -4,7 +4,6 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import AddParticipants from "./pages/AddParticipants";
 import AddMatch from "./pages/AddMatch";
-import Rankings from "./pages/Rankings";
 import { ToastContainer } from "react-toastify";
 
 const saveData = (key, data) => {
@@ -33,8 +32,23 @@ function App() {
 		setPlayers([...players, newPlayer]);
 	};
 
-	const addMatch = () => {
-		// TODO: calculateElo()
+	const addMatch = (playerA, playerB, scoreA, scoreB) => {
+		const updatedPlayers = [...players];
+
+		const playerIndexA = updatedPlayers.findIndex((p) => p.nom === playerA);
+		const playerIndexB = updatedPlayers.findIndex((p) => p.nom === playerB);
+
+		const playerObjA = updatedPlayers[playerIndexA];
+		const playerObjB = updatedPlayers[playerIndexB];
+
+		const { playerA_elo, playerB_elo } = calculateElo(playerObjA, playerObjB, scoreA, scoreB);
+		
+		updatedPlayers[playerIndexA].elo = playerA_elo;
+		updatedPlayers[playerIndexB].elo = playerB_elo;
+
+		setPlayers(updatedPlayers);
+		setMatchs([...matchs, { playerA, playerB, scoreA, scoreB, date: new Date().toISOString() }]);
+		console.log(`Match ajouté : ${playerA} vs ${playerB}, Score : ${scoreA} - ${scoreB}`);
 	};
 
 	const calculateElo = (playerA, playerB, scoreA, scoreB, K = 32) => {
@@ -62,10 +76,9 @@ function App() {
 				<Header />
 				<main className="container mx-auto p-4">
 					<Routes>
-						<Route path="/" element={<Home players={players} />} />
+						<Route path="/" element={<Home players={players} matchs={matchs} />} />
 						<Route path="/add-participants" element={<AddParticipants addPlayer={addPlayer} />} />
 						<Route path="/add-match" element={<AddMatch players={players} addMatch={addMatch} />} />
-						<Route path="/rankings" element={<Rankings players={players} />} />
 					</Routes>
 				</main>
 				<ToastContainer />

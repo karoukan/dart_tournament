@@ -1,8 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { TrendingUp, TrendingDown } from 'lucide-react'; 
 
 const Home = ({ players }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const playersPerPage = 10;
+    const [playerRankingChanges, setPlayerRankingChanges] = useState({});
+
+    const getMatchsFromLocalStorage = () => {
+        const matchsData = localStorage.getItem('matchs');
+        return matchsData ? JSON.parse(matchsData) : [];
+    };
+
+    const calculatePlayerProgression = () => {
+        const matchs = getMatchsFromLocalStorage();
+        const rankingChanges = {};
+
+        matchs.forEach((match) => {
+            const { playerA, playerB, scoreA, scoreB } = match;
+
+            rankingChanges[playerA] = rankingChanges[playerA] || 0;
+            rankingChanges[playerB] = rankingChanges[playerB] || 0;
+
+            if (parseInt(scoreA) > parseInt(scoreB)) {
+                rankingChanges[playerA] += 1;
+                rankingChanges[playerB] -= 1;
+            } else if (parseInt(scoreA) < parseInt(scoreB)) {
+                rankingChanges[playerA] -= 1;
+                rankingChanges[playerB] += 1;
+            }
+        });
+
+        setPlayerRankingChanges(rankingChanges);
+    };
+
+    useEffect(() => {
+        calculatePlayerProgression();
+    }, []);
 
     const totalPages = Math.ceil(players.length / playersPerPage);
 
@@ -16,25 +49,30 @@ const Home = ({ players }) => {
         <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">Classement du tournoi de fléchettes</h2>
             
-            <div className="max-w-4xl mx-auto">
-                <h2 className="text-2xl font-bold mb-6">Classement des joueurs</h2>
-
+            <div className="max-w-6xl mx-auto">
                 <table className="w-full table-auto border-collapse bg-white shadow-md rounded-lg">
                     <thead>
                         <tr className="bg-blue-600 text-white">
-                        <th className="p-4 text-left">Nom</th>
-                        <th className="p-4 text-right">Score ELO</th>
+                            <th className="p-4 text-left">Nom du joueur</th>
+                            <th className="p-4 text-right">Score ELO</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentPlayers
-                        .sort((a, b) => b.elo - a.elo) // Triage des players par leur ELO
-                        .map((player, index) => (
-                            <tr key={index} className="border-b hover:bg-gray-100">
-                            <td className="p-4">{player.nom}</td>
-                            <td className="p-4 text-right">{Math.round(player.elo)}</td>
-                            </tr>
-                        ))}
+                            .sort((a, b) => b.elo - a.elo) // Triage des joueurs par leur ELO
+                            .map((player, index) => (
+                                <tr key={index} className="border-b hover:bg-gray-100">
+                                    <td className="p-4 flex items-center justify-between">
+                                        <span className="mr-2">{player.name}</span>
+                                        {playerRankingChanges[player.name] > 0 ? (
+                                            <TrendingUp className="text-green-500" />
+                                        ) : playerRankingChanges[player.name] < 0 ? (
+                                            <TrendingDown className="text-red-500" />
+                                        ) : null}
+                                    </td>
+                                    <td className="p-4 text-right">{Math.round(player.elo)}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
 
