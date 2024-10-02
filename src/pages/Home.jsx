@@ -76,26 +76,30 @@ const Home = ({ players }) => {
                     </tbody>
                 </table>
 
-                <div className="mt-4">
-                    <button
-                        onClick={() => paginate(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className={`px-4 py-2 mr-2 rounded ${currentPage === 1 ? 'bg-gray-300' : 'bg-blue-600 text-white'}`}
-                    >
-                        Précédent
-                    </button>
-                    <button
-                        onClick={() => paginate(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className={`px-4 py-2 rounded ${currentPage === totalPages ? 'bg-gray-300' : 'bg-blue-600 text-white'}`}
-                    >
-                        Suivant
-                    </button>
-                </div>
+                {players.length > playersPerPage && (
+                    <div className="mt-4">
+                        <button
+                            onClick={() => paginate(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className={`px-4 py-2 mr-2 rounded ${currentPage === 1 ? 'bg-gray-300' : 'bg-blue-600 text-white'}`}
+                        >
+                            Précédent
+                        </button>
+                        <button
+                            onClick={() => paginate(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className={`px-4 py-2 rounded ${currentPage === totalPages ? 'bg-gray-300' : 'bg-blue-600 text-white'}`}
+                        >
+                            Suivant
+                        </button>
+                    </div>
+                )}
 
-                <div className="mt-2 text-gray-600">
-                    Page {currentPage} sur {totalPages}
-                </div>
+                {players.length > playersPerPage && (
+                    <div className="mt-2 text-gray-600">
+                        Page {currentPage} sur {totalPages}
+                    </div>
+                )}
             </div>
         </div>
     );

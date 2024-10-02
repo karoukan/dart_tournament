@@ -28,15 +28,15 @@ function App() {
 	}, [matchs]);
 
 	const addPlayer = (name) => {
-		const newPlayer = { nom: name, elo: 1000 };
+		const newPlayer = { name: name, elo: 1000 };
 		setPlayers([...players, newPlayer]);
 	};
 
 	const addMatch = (playerA, playerB, scoreA, scoreB) => {
 		const updatedPlayers = [...players];
 
-		const playerIndexA = updatedPlayers.findIndex((p) => p.nom === playerA);
-		const playerIndexB = updatedPlayers.findIndex((p) => p.nom === playerB);
+		const playerIndexA = updatedPlayers.findIndex((p) => p.name === playerA);
+		const playerIndexB = updatedPlayers.findIndex((p) => p.name === playerB);
 
 		const playerObjA = updatedPlayers[playerIndexA];
 		const playerObjB = updatedPlayers[playerIndexB];
