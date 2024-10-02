@@ -1,8 +1,18 @@
-# React + Vite
+# Classement ELO pour le tournoi de fléchettes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce projet utilise un système de **classement ELO** pour gérer et évaluer la performance des joueurs dans un tournoi de fléchettes 
 
-Currently, two official plugins are available:
+# Lancer le projet
+- npm install
+- npm run dev / build (pour la prod)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+https://fr.wikipedia.org/wiki/Classement_ELO
+
+## Fonctionnement du système ELO
+
+Le **système de classement ELO** repose sur les principes suivants :
+- Chaque joueur commence avec un score ELO de base, typiquement **1000**.
+- À la fin de chaque match, les scores ELO des joueurs sont ajustés en fonction des résultats :
+  - Si un joueur gagne, son score ELO augmente.
+  - Si un joueur perd, son score ELO diminue.
+  - Le changement dépend de la différence de classement ELO entre les deux joueurs avant le match.
